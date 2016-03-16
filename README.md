@@ -1,0 +1,2 @@
+# AdmEquipos
+Administracion de equipos
