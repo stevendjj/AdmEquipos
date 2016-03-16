@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>ADMINISTRACIÓN DE EQUIPOS</title>
+    </h:head>
+    <h:body>
+        <f:event type="preRenderView" listener="#{equipoManaged.listar()}"/>
+        <f:event type="preRenderView" listener="#{responsableBean.listar()}"/>
+        <p:growl id="msg" autoUpdate="true" showDetail="true"/>
+        <h:form id="form">
+            <p:focus for="idEquipo"/>
+            <p:panel toggleable="true" header="EQUIPOS" collapsed="true">
+                <f:facet name="footer"/>    
+                    <p:panelGrid columns="2">
+                <p:outputLabel for="idEquipo" value="Id:"></p:outputLabel>
+                <p:inputText required="true" id="idEquipo" value="#{equipoManaged.equipo.id}"></p:inputText>
+                 <p:outputLabel for="marca" value="Marca:"></p:outputLabel>
+                 <p:inputText id="marca" value="#{equipoManaged.equipo.marca}"></p:inputText>
+                 <p:outputLabel for="modelo" value="Modelo:"></p:outputLabel>
+                 <p:inputText id="modelo" value="#{equipoManaged.equipo.modelo}"></p:inputText>
+                 <p:outputLabel for="modelo" value="Tipo:"></p:outputLabel>
+                 <p:selectOneMenu value="#{equipoManaged.equipo.tipo}">
+                    <f:selectItem itemLabel="PC" itemValue="PC"/>
+                    <f:selectItem itemLabel="Laptop" itemValue="LAPTOP"/>
+                 </p:selectOneMenu>
+                 <p:outputLabel for="estado" value="Estado:"></p:outputLabel>
+                 <p:inputTextarea id="estado" value="#{equipoManaged.equipo.estado}" style="width: 300px"></p:inputTextarea>       
+            </p:panelGrid>
+                <br/>
+                <p:commandButton update="tabla" icon="ui-icon-disk" value="Guardar"  title="guardar equipo" actionListener="#{equipoManaged.guardarEquipo()}" ></p:commandButton>
+                <br/>
+                <br/>
+                <p:dataTable id="tabla" var="item" value="#{equipoManaged.equipos}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="1,2,3"  currentPageReportTemplate="Página: ({currentPage} de {totalPages})" emptyMessage="No se han encontrado equipos registrados">
+                    <p:column headerText="ID" filterBy="#{item.id}">
+                    <h:outputText value="#{item.id}"></h:outputText>
+                </p:column>
+                 <p:column headerText="MARCA" filterBy="#{item.marca}">
+                     <h:outputText value="#{item.marca}"></h:outputText>
+                </p:column>
+                 <p:column headerText="MODELO" filterBy="#{item.modelo}">
+                     <h:outputText value="#{item.modelo}"></h:outputText>
+                </p:column>
+                <p:column headerText="TIPO" filterBy="#{item.tipo}">
+                    <h:outputText value="#{item.tipo}"></h:outputText>
+                </p:column>
+                 <p:column headerText="ESTADO" filterBy="#{item.estado}">
+                     <h:outputText value="#{item.estado}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+             </p:panel>
+        </h:form>
+        <br/>
+        <h:form id="frmResponsable">
+        <p:panel toggleable="true" header="RESPONSABLES" collapsed="true">
+                <f:facet name="footer"/>    
+                    <p:panelGrid columns="2">
+                <p:outputLabel for="identificacion" value="Identificación:"></p:outputLabel>
+                <p:inputText required="true" id="identificacion" value="#{responsableBean.responsable.identificacion}"></p:inputText>
+                 <p:outputLabel for="marca" value="Nombre:"></p:outputLabel>
+                 <p:inputText id="marca" value="#{responsableBean.responsable.nombre}"></p:inputText>
+                 <p:outputLabel for="modelo" value="Apellidos:"></p:outputLabel>
+                 <p:inputText id="modelo" value="#{responsableBean.responsable.apellido}"></p:inputText>
+                 <p:outputLabel for="modelo" value="Cargo:"></p:outputLabel>
+                 <p:selectOneMenu value="#{responsableBean.responsable.cargo}">
+                    <f:selectItem itemLabel="TÉCNICO" itemValue="TÉCNICO"/>
+                    <f:selectItem itemLabel="TÉCNOLOGO" itemValue="TÉCNOLOGO"/>
+                    <f:selectItem itemLabel="INGENIERO" itemValue="INGENIERO"/>
+                 </p:selectOneMenu>       
+            </p:panelGrid>
+                <br/>
+                <p:commandButton update="tabla" icon="ui-icon-plus" value="AGREGAR RESPONSABLE"  title="resgistrar responsable" actionListener="#{responsableBean.guardarResponsable()}" ></p:commandButton>
+                <br/>
+                <br/>
+                <p:dataTable id="tabla" var="item" value="#{responsableBean.lista}" paginator="true" rows="1" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="1,2,3"  currentPageReportTemplate="Página: ({currentPage} de {totalPages})" emptyMessage="No se han encontrado responsables registrados">
+                    <p:column headerText="IDENTIFICACIÓN" filterBy="#{item.identificacion}">
+                        <h:outputText value="#{item.identificacion}"></h:outputText>
+                </p:column>
+                    <p:column headerText="NOMBRE" filterBy="#{item.nombre}">
+                        <h:outputText value="#{item.nombre}"></h:outputText>
+                </p:column>
+                    <p:column headerText="APELLIDOS" filterBy="#{item.apellido}">
+                        <h:outputText value="#{item.apellido}"></h:outputText>
+                </p:column>
+                    <p:column headerText="CARGO" filterBy="#{item.cargo}">
+                        <h:outputText value="#{item.cargo}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+             </p:panel>
+            <p:commandLink value="HOJAS DE VIDA EQUIPOS " action="listado?faces-redirect=true"/>
+        </h:form>
+        <br/>
+        <h:form id="form1">
+            <p:panel toggleable="true" header="MANTENIMIENTO">
+                <f:facet name="footer">
+                    
+                </f:facet>
+           
+                <p:panelGrid columns="2" style="width: 450px">
+                
+                <p:outputLabel for="codigo" value="Codigo:*"></p:outputLabel>
+                <p:inputText required="true" id="codigo" value=""></p:inputText>
+                    
+                 <p:outputLabel for="fechaIngreso" value="Fecha de ingreso:*"></p:outputLabel>
+                 <p:calendar id="fechaIngreso" value="#{mantenimientoBean.date}" showOn="button" />
+                 
+                 <p:outputLabel for="tipo" value="Tipo:*"></p:outputLabel>
+                 <p:selectOneMenu id="tipo" value="" style="width:150px">
+                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true" />
+                     <f:selectItem itemLabel="PREVENTIVO" itemValue="PREVENTIVO" noSelectionOption="true" />
+                     <f:selectItem itemLabel="CORRECTIVO" itemValue="CORRECTIVO" noSelectionOption="true" />
+                    <f:selectItem itemLabel="PREDICTIVO" itemValue="PREDICTIVO" noSelectionOption="true" />
+                 </p:selectOneMenu>
+                 
+                 <p:outputLabel for="descripcion" value="Descripcion:*"></p:outputLabel>
+                 <p:inputTextarea rows="5" cols="50"  id="descripcion" queryDelay="750" minQueryLength="4" value=""/>
+                 
+                 <p:outputLabel for="resultado" value="Resultado:*"></p:outputLabel>
+                 <p:inputTextarea rows="5" cols="50"  id="resultado" queryDelay="750" minQueryLength="4" value=""/>
+                                  
+            </p:panelGrid>
+                <p:separator/>
+                
+                <p:panelGrid>  
+                    
+                </p:panelGrid>
+                
+                <p:separator/>
+                 
+                <p:panelGrid>
+                    <p:outputLabel for="responsable" value="Responsable:"></p:outputLabel>
+                    <p:inputText id="responsable" value="" required="true"/>    
+                </p:panelGrid>
+                
+                <p:commandButton icon="ui-icon-disk" value="Guardar" title="guardar equipo" actionListener="#{equipoManaged.guardarEquipo}" ></p:commandButton>
+            </p:panel>    
+        </h:form>
+    </h:body>
+</html>
+

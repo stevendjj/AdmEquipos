@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <f:event type="preRenderView" listener="#{hojaVidaEQPBean.listar()}"/>
+        <p:growl id="msg" autoUpdate="true" showDetail="true"/>
+        <h:form>
+            <p:panel toggleable="true" header="Hoja de vida Equipos">
+                <f:facet name="footer"/>  
+            <p:panelGrid columns="2">
+                <p:outputLabel for="codigo" value="Codigo:"></p:outputLabel>
+                <p:inputText required="true" id="codigo" value="#{hojaVidaEQPBean.hojavida.codigo}"></p:inputText>
+                 
+            </p:panelGrid>
+            <p:panelGrid columns="4">
+                    
+                 <p:outputLabel for="memoria" value="Memoria RAM:"></p:outputLabel>
+                 <p:inputText id="memoria" value="#{hojaVidaEQPBean.hojavida.memoria}"></p:inputText>
+                 <p:outputLabel for="vel_memoria" value="Velocidad de Memoria RAM(GB):"></p:outputLabel>
+                 <p:inputText id="vel_memoria" value="#{hojaVidaEQPBean.hojavida.vel_memoria}"></p:inputText>
+                 
+                 <p:outputLabel for="procesador" value="Procesador:"></p:outputLabel>
+                 <p:inputText id="procesador" value="#{hojaVidaEQPBean.hojavida.procesador}"></p:inputText>
+                 <p:outputLabel for="procesador" value="Velocidad de Procesador (GHz):"></p:outputLabel>
+                 <p:inputText id="vel_procesador" value="#{hojaVidaEQPBean.hojavida.vel_procesador}"></p:inputText>
+                 
+                 <p:outputLabel for="discoD" value="Disco Duro:"></p:outputLabel>
+                 <p:inputText id="discoD" value="#{hojaVidaEQPBean.hojavida.discoD}"></p:inputText>
+                 <p:outputLabel for="cap_discod" value="Capacidad del Disco duro (GB) :"></p:outputLabel>
+                 <p:inputText id="cap_discod" value="#{hojaVidaEQPBean.hojavida.cap_discoD}"></p:inputText>
+                 
+                 <p:outputLabel for="sistemaOperativo" value="Sistema Operativo:"></p:outputLabel>
+                 <p:selectOneMenu id="sistemaOperativo" value="#{hojaVidaEQPBean.hojavida.sistemaOperativo}" style="width:150px">
+                     <f:selectItem itemLabel="WINDOWS" itemValue="WINDOWS" noSelectionOption="true" />
+                    <f:selectItem itemLabel="LINUX" itemValue="LINUX" noSelectionOption="true" />
+                    <f:selectItem itemLabel="MAC" itemValue="MAC" noSelectionOption="true" />
+                 </p:selectOneMenu>
+                 
+                 <p:outputLabel for="version_so" value="version del Sistema Operativo:"></p:outputLabel>
+                 <p:inputText id="version_so" value="#{hojaVidaEQPBean.hojavida.version_so}"></p:inputText>                   
+                 
+                 <p:outputLabel for="paqueteOffice" value="Paquete de Office:"></p:outputLabel>
+                 <p:selectOneMenu id="paqueteOffice" value="#{hojaVidaEQPBean.hojavida.paqueteOffice}" style="width:150px">
+                     <f:selectItem itemLabel="NO" itemValue="NO" noSelectionOption="true" />
+                    <f:selectItem itemLabel="SI" itemValue="SI" noSelectionOption="true" />
+                 </p:selectOneMenu>
+                
+                 <p:outputLabel for="version_Office" value="Version del Office:"></p:outputLabel>
+                 <p:selectOneMenu id="version_Office" value="#{hojaVidaEQPBean.hojavida.version_Office}" style="width:150px">
+                    <f:selectItem itemLabel="NO" itemValue="NO" noSelectionOption="true" />
+                     <f:selectItem itemLabel="2007" itemValue="2007" noSelectionOption="true" />
+                    <f:selectItem itemLabel="2010" itemValue="2010" noSelectionOption="true" />
+                    <f:selectItem itemLabel="2013" itemValue="2013" noSelectionOption="true" />
+                    <f:selectItem itemLabel="2016" itemValue="2016" noSelectionOption="true" />
+                 </p:selectOneMenu>
+                
+                 
+            </p:panelGrid>
+             
+             <p:separator />
+             
+             <p:panelGrid columns="2" style="width: 909px">    
+                 <p:outputLabel for="antivirus" value="Antivirus:"></p:outputLabel>
+                 <p:inputText id="antivirus"  value="#{hojaVidaEQPBean.hojavida.antivitus}"></p:inputText>
+                 
+                 <p:outputLabel for="otros" value="Otros:"></p:outputLabel>
+                 <p:inputTextarea rows="5" cols="100"  id="otros" queryDelay="750" minQueryLength="4" value="#{hojaVidaEQPBean.hojavida.otros}"/>
+            </p:panelGrid>  
+            
+             <p:commandButton icon="ui-icon-disk" value="Guardar"  update="tabla" title="guardar equipo" actionListener="#{hojaVidaEQPBean.guardarHojaVida()}" ></p:commandButton>
+                
+             <p:dataTable id="tabla" var="item" value="#{hojaVidaEQPBean.lista}">
+                <p:column headerText="COD_HOJA_VIDA">
+                    <h:outputText value="#{item.codigo}"></h:outputText>
+                </p:column>
+                 <p:column headerText="RAM">
+                     <h:outputText value="#{item.memoria}"></h:outputText>
+                </p:column>
+                 <p:column headerText="VELOCIDAD_RAM">
+                     <h:outputText value="#{item.vel_memoria}"></h:outputText>
+                </p:column>
+                 <p:column headerText="PROCESADOR">
+                     <h:outputText value="#{item.procesador}"></h:outputText>
+                </p:column>
+                  <p:column headerText="VELOCIDAD_PROCESADOR">
+                      <h:outputText value="#{item.vel_procesador}"></h:outputText>
+                </p:column>
+                  <p:column headerText="DISCO_DURO">
+                      <h:outputText value="#{item.discoD}"></h:outputText>
+                </p:column>
+                  <p:column headerText="CAP_DISCO_DURO">
+                      <h:outputText value="#{item.cap_discoD}"></h:outputText>
+                </p:column>
+                  <p:column headerText="SO">
+                      <h:outputText value="#{item.sistemaOperativo}"></h:outputText>
+                </p:column>
+                  <p:column headerText="VERSION_SO">
+                      <h:outputText value="#{item.version_so}"></h:outputText>
+                </p:column>
+                  <p:column headerText="OFFICE">
+                      <h:outputText value="#{item.paqueteOffice}"></h:outputText>
+                </p:column>
+                  <p:column headerText="VERSION_OFFICE">
+                      <h:outputText value="#{item.version_Office}"></h:outputText>
+                </p:column>
+                  <p:column headerText="ANTIVIRUS">
+                      <h:outputText value="#{item.antivitus}"></h:outputText>
+                </p:column>
+                  <p:column headerText="OBSERVACIONES">
+                      <h:outputText value="#{item.otros}"></h:outputText>
+                </p:column> 
+            </p:dataTable>
+                </p:panel>
+        </h:form>
+    </h:body>
+</html>
+
