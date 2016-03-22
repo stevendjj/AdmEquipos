@@ -8,10 +8,19 @@
         <title>ADMINISTRACIÓN DE EQUIPOS</title>
     </h:head>
     <h:body>
+        <center><h1><p:outputLabel value="ADMINISTRACIÓN DE EQUIPOS"/></h1> </center>
         <f:event type="preRenderView" listener="#{equipoManaged.listar()}"/>
         <f:event type="preRenderView" listener="#{responsableBean.listar()}"/>
         <p:growl id="msg" autoUpdate="true" showDetail="true"/>
-        <h:form id="form">
+        <div>
+            <h:form>
+            <p:menubar>
+                <p:menuitem value="HOJAS DE VIDA" url="/faces/hojaVida.xhtml" icon="ui-icon-document" />
+                <p:menuitem value="MANTENIMIENTOS" url="/faces/mantenimiento.xhtml" icon="ui-icon-gear" />
+            </p:menubar>
+            </h:form>
+        </div>
+         <h:form id="form">
             <p:focus for="idEquipo"/>
             <p:panel toggleable="true" header="EQUIPOS" collapsed="true">
                 <f:facet name="footer"/>    
@@ -76,7 +85,7 @@
                 <p:commandButton update="tabla" icon="ui-icon-plus" value="AGREGAR RESPONSABLE"  title="resgistrar responsable" actionListener="#{responsableBean.guardarResponsable()}" ></p:commandButton>
                 <br/>
                 <br/>
-                <p:dataTable id="tabla" var="item" value="#{responsableBean.lista}" paginator="true" rows="1" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                <p:dataTable id="tabla" var="item" value="#{responsableBean.lista}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="1,2,3"  currentPageReportTemplate="Página: ({currentPage} de {totalPages})" emptyMessage="No se han encontrado responsables registrados">
                     <p:column headerText="IDENTIFICACIÓN" filterBy="#{item.identificacion}">
                         <h:outputText value="#{item.identificacion}"></h:outputText>
@@ -92,54 +101,9 @@
                 </p:column>
             </p:dataTable>
              </p:panel>
-            <p:commandLink value="HOJAS DE VIDA EQUIPOS " action="listado?faces-redirect=true"/>
         </h:form>
         <br/>
-        <h:form id="form1">
-            <p:panel toggleable="true" header="MANTENIMIENTO">
-                <f:facet name="footer">
-                    
-                </f:facet>
-           
-                <p:panelGrid columns="2" style="width: 450px">
-                
-                <p:outputLabel for="codigo" value="Codigo:*"></p:outputLabel>
-                <p:inputText required="true" id="codigo" value=""></p:inputText>
-                    
-                 <p:outputLabel for="fechaIngreso" value="Fecha de ingreso:*"></p:outputLabel>
-                 <p:calendar id="fechaIngreso" value="#{mantenimientoBean.date}" showOn="button" />
-                 
-                 <p:outputLabel for="tipo" value="Tipo:*"></p:outputLabel>
-                 <p:selectOneMenu id="tipo" value="" style="width:150px">
-                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true" />
-                     <f:selectItem itemLabel="PREVENTIVO" itemValue="PREVENTIVO" noSelectionOption="true" />
-                     <f:selectItem itemLabel="CORRECTIVO" itemValue="CORRECTIVO" noSelectionOption="true" />
-                    <f:selectItem itemLabel="PREDICTIVO" itemValue="PREDICTIVO" noSelectionOption="true" />
-                 </p:selectOneMenu>
-                 
-                 <p:outputLabel for="descripcion" value="Descripcion:*"></p:outputLabel>
-                 <p:inputTextarea rows="5" cols="50"  id="descripcion" queryDelay="750" minQueryLength="4" value=""/>
-                 
-                 <p:outputLabel for="resultado" value="Resultado:*"></p:outputLabel>
-                 <p:inputTextarea rows="5" cols="50"  id="resultado" queryDelay="750" minQueryLength="4" value=""/>
-                                  
-            </p:panelGrid>
-                <p:separator/>
-                
-                <p:panelGrid>  
-                    
-                </p:panelGrid>
-                
-                <p:separator/>
-                 
-                <p:panelGrid>
-                    <p:outputLabel for="responsable" value="Responsable:"></p:outputLabel>
-                    <p:inputText id="responsable" value="" required="true"/>    
-                </p:panelGrid>
-                
-                <p:commandButton icon="ui-icon-disk" value="Guardar" title="guardar equipo" actionListener="#{equipoManaged.guardarEquipo}" ></p:commandButton>
-            </p:panel>    
-        </h:form>
+        
     </h:body>
 </html>
 
