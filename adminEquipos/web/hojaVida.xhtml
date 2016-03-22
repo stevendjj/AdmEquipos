@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>HOJAS DE VIDA EQUIPOS</title>
+    </h:head>
+    <h:body>
+        <f:event type="preRenderView" listener="#{hojaVidaEQPBean.listar()}"/>
+        <f:event type="preRenderView" listener="#{equipoManaged.listar()}"/>
+        <p:growl id="msg" autoUpdate="true" showDetail="true"/>
+        <h:form id="form">
+            <p:panel toggleable="true" header="Hoja de vida Equipos">
+                <f:facet name="footer"/>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Seleccione el equipo"/>
+                    <p:selectOneMenu value="#{hojaVidaEQPBean.hojavida.equipo}">
+                        <f:selectItems value="#{equipoManaged.equipos}" var="eqp" itemLabel="#{eqp.id}" itemValue="#{eqp.id}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>    
+            <p:panelGrid columns="2">
+                <p:outputLabel for="codigo" value="Codigo:"></p:outputLabel>
+                <p:inputText required="true" id="codigo" value="#{hojaVidaEQPBean.hojavida.codigo}"></p:inputText>
+                 
+            </p:panelGrid>
+            <p:panelGrid columns="4">
+                    
+                 <p:outputLabel for="memoria" value="Memoria RAM:(Gb)"></p:outputLabel>
+                 <p:inputText id="memoria" value="#{hojaVidaEQPBean.hojavida.memoria}"></p:inputText>
+                 <p:outputLabel for="vel_memoria" value="Velocidad de Memoria RAM(GB):"></p:outputLabel>
+                 <p:inputText id="vel_memoria" value="#{hojaVidaEQPBean.hojavida.vel_memoria}"></p:inputText>
+                 
+                 <p:outputLabel for="procesador" value="Procesador:"></p:outputLabel>
+                 <p:inputText id="procesador" value="#{hojaVidaEQPBean.hojavida.procesador}"></p:inputText>
+                 <p:outputLabel for="procesador" value="Velocidad de Procesador (GHz):"></p:outputLabel>
+                 <p:inputText id="vel_procesador" value="#{hojaVidaEQPBean.hojavida.vel_procesador}"></p:inputText>
+                 
+                 <p:outputLabel for="discoD" value="Disco Duro:"></p:outputLabel>
+                 <p:inputText id="discoD" value="#{hojaVidaEQPBean.hojavida.discoD}"></p:inputText>
+                 <p:outputLabel for="cap_discod" value="Capacidad del Disco duro (GB) :"></p:outputLabel>
+                 <p:inputText id="cap_discod" value="#{hojaVidaEQPBean.hojavida.cap_discoD}"></p:inputText>
+                 
+                 <p:outputLabel for="sistemaOperativo" value="Sistema Operativo:"></p:outputLabel>
+                 <p:selectOneMenu id="sistemaOperativo" value="#{hojaVidaEQPBean.hojavida.sistemaOperativo}" style="width:150px">
+                     <f:selectItem itemLabel="WINDOWS" itemValue="WINDOWS" noSelectionOption="true" />
+                    <f:selectItem itemLabel="LINUX" itemValue="LINUX" noSelectionOption="true" />
+                    <f:selectItem itemLabel="MAC" itemValue="MAC" noSelectionOption="true" />
+                 </p:selectOneMenu>
+                 
+                 <p:outputLabel for="version_so" value="version del Sistema Operativo:"></p:outputLabel>
+                 <p:inputText id="version_so" value="#{hojaVidaEQPBean.hojavida.version_so}"></p:inputText>                   
+                 
+                 <p:outputLabel for="paqueteOffice" value="Paquete de Office:"></p:outputLabel>
+                 <p:selectOneMenu id="paqueteOffice" value="#{hojaVidaEQPBean.hojavida.paqueteOffice}" style="width:150px">
+                     <f:selectItem itemLabel="NO" itemValue="NO" noSelectionOption="true" />
+                    <f:selectItem itemLabel="SI" itemValue="SI" noSelectionOption="true" />
+                 </p:selectOneMenu>
+                
+                 <p:outputLabel for="version_Office" value="Version del Office:"></p:outputLabel>
+                 <p:selectOneMenu id="version_Office" value="#{hojaVidaEQPBean.hojavida.version_Office}" style="width:150px">
+                    <f:selectItem itemLabel="NO" itemValue="NO" noSelectionOption="true" />
+                     <f:selectItem itemLabel="2007" itemValue="2007" noSelectionOption="true" />
+                    <f:selectItem itemLabel="2010" itemValue="2010" noSelectionOption="true" />
+                    <f:selectItem itemLabel="2013" itemValue="2013" noSelectionOption="true" />
+                    <f:selectItem itemLabel="2016" itemValue="2016" noSelectionOption="true" />
+                 </p:selectOneMenu>
+                
+                 
+            </p:panelGrid>
+             
+             <p:separator />
+             
+             <p:panelGrid columns="2" style="width: 909px">    
+                 <p:outputLabel for="antivirus" value="Antivirus:"></p:outputLabel>
+                 <p:inputText id="antivirus"  value="#{hojaVidaEQPBean.hojavida.antivitus}"></p:inputText>
+                 
+                 <p:outputLabel for="otros" value="Onservaciones:"></p:outputLabel>
+                 <p:inputTextarea rows="5" cols="100"  id="otros" queryDelay="750" minQueryLength="4" value="#{hojaVidaEQPBean.hojavida.otros}"/>
+            </p:panelGrid>  
+             <br/>
+             <p:commandButton icon="ui-icon-disk" value="Guardar"  update="form:tabla" title="guardar equipo" actionListener="#{hojaVidaEQPBean.guardarHojaVida()}" ></p:commandButton>
+            </p:panel>
+        <br/>
+        <center>
+            <h1><p:outputLabel value="LISTADO DE HOJAS DE VIDA"/></h1>
+        <p:dataTable id="tabla" var="item" value="#{hojaVidaEQPBean.lista}" style="width: 70%" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="1,2,3"  currentPageReportTemplate="Página: ({currentPage} de {totalPages})" emptyMessage="No se han encontrado hojas de vida registradas">
+            <p:column headerText="COD_EQUIPO" filterBy="#{item.equipo}" style="width: 150px">
+                     <h:outputText value="#{item.equipo}"></h:outputText>
+                </p:column> 
+            <p:column headerText="COD_HOJA_VIDA" filterBy="#{item.codigo}" style="width: 150px">
+                    <h:outputText value="#{item.codigo}"></h:outputText>
+                </p:column>
+                 <p:column headerText="RAM" style="width: 150px">
+                     <h:outputText value="#{item.memoria}"></h:outputText>
+                </p:column>
+                 <p:column headerText="VELOCIDAD_RAM" style="width: 150px">
+                     <h:outputText value="#{item.vel_memoria}"></h:outputText>
+                </p:column>
+                 <p:column headerText="PROCESADOR" style="width: 150px">
+                     <h:outputText value="#{item.procesador}"></h:outputText>
+                </p:column>
+                  <p:column headerText="VELOCIDAD_PROCESADOR" style="width: 240px">
+                      <h:outputText value="#{item.vel_procesador}"></h:outputText>
+                </p:column>
+                  <p:column headerText="DISCO DURO" style="width: 190px">
+                      <h:outputText value="#{item.discoD}"></h:outputText>
+                </p:column>
+                  <p:column headerText="CAP_DISCO_DURO" style="width: 200px">
+                      <h:outputText value="#{item.cap_discoD}"></h:outputText>
+                </p:column>
+                <p:column headerText="INFO ADICIONAL" style="width: 150px">
+                    <p:commandButton value="Mostrar" oncomplete="PF('heqDialog').show();"/>
+                </p:column>
+            </p:dataTable>
+            </center>
+       
+    <p:dialog header="Información adicional" widgetVar="heqDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        <center> <h1><p:outputLabel value="INFORMACIÓN ADICIONAL"/></h1> </center>
+        <p:dataTable var="hojavida" value="#{hojaVidaEQPBean.lista}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="1,2,3"  currentPageReportTemplate="Página: ({currentPage} de {totalPages})" emptyMessage="No se han encontrado hojas de vida registradas">
+               <p:column headerText="COD_HOJA_VIDA" style="width: 150px">
+                   <h:outputText value="#{hojavida.codigo}"></h:outputText>
+                </p:column> 
+               <p:column headerText="SISTEMA OPERATIVO">
+                <h:outputText value="#{hojavida.sistemaOperativo}" />
+                </p:column>
+                <p:column headerText="Version_SO">
+                <h:outputText value="#{hojavida.version_so}" />
+                </p:column>
+                <p:column headerText="PAQUETE OFFICE" >
+                <h:outputText value="#{hojavida.paqueteOffice}"/>
+                </p:column>
+                <p:column headerText="VERSIÓN OFFICE">
+                    <h:outputText value="#{hojavida.version_Office}"/>
+                </p:column>
+                <p:column headerText="ANTIVIRUS">
+                    <h:outputText value="#{hojavida.antivitus}"/>
+                </p:column>
+                <p:column headerText="OBSERVACIONES" filterBy="#{hojavida.otros}">
+                    <h:outputText value="#{hojavida.otros}"/>
+                </p:column>
+                </p:dataTable>
+    </p:dialog>
+        </h:form>
+        <br/>
+        <div align="center">
+            <h:form>
+                <p:commandLink value="Volver al inicio" action="index?faces-redirect=true"/>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+
