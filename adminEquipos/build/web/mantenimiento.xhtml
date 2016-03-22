@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>MANTENIMIENTOS</title>
+    </h:head>
+    <h:body>
+        <div align="center">
+            <h:form>
+                <p:link value="Volver al inicio" href="/faces/index.xhtml"/>
+            </h:form>
+        </div>
+        <f:event type="preRenderView" listener="#{mantenimientoBean.listar()}"/>
+        <f:event type="preRenderView" listener="#{equipoManaged.listar()}"/>
+        <f:event type="preRenderView" listener="#{responsableBean.listar()}"/>
+        <p:growl id="msg" autoUpdate="true" showDetail="true"/>
+        <h:form>
+            <p:panel toggleable="true" header="MANTENIMIENTO" style="margin-right: 40px">
+                <f:facet name="footer">
+                    
+                </f:facet>
+           
+                <p:panelGrid columns="6" style="width: 300px">
+                
+                <p:outputLabel for="codigo" value="Codigo:*"></p:outputLabel>
+                <p:inputText required="true" id="codigo" value="#{mantenimientoBean.mantenimiento.codigo}"></p:inputText>
+                
+                 <p:outputLabel for="fechaIngreso" value="Fecha de ingreso:*"></p:outputLabel>
+                 <p:calendar id="fechaIngreso" value="#{mantenimientoBean.mantenimiento.fechaIngreso}" showOn="button" pattern="dd/MM/yyyy"/>
+                 
+                 <p:outputLabel for="tipo" value="Tipo:*"></p:outputLabel>
+                 <p:selectOneMenu id="tipo" value="#{mantenimientoBean.mantenimiento.tipo}" style="width:150px">
+                     <f:selectItem itemLabel="Seleccionar" itemValue="" noSelectionOption="true" />
+                     <f:selectItem itemLabel="PREVENTIVO" itemValue="PREVENTIVO" noSelectionOption="true" />
+                     <f:selectItem itemLabel="CORRECTIVO" itemValue="CORRECTIVO" noSelectionOption="true" />
+                    <f:selectItem itemLabel="PREDICTIVO" itemValue="PREDICTIVO" noSelectionOption="true" />
+                 </p:selectOneMenu>
+                 
+                </p:panelGrid>
+                <p:separator></p:separator>
+                <p:panelGrid columns="2" style="width: 688px">
+
+                 <p:outputLabel for="descripcion" value="Descripcion:*"></p:outputLabel>
+                 <p:inputTextarea rows="3" cols="70"  id="descripcion" queryDelay="750" minQueryLength="4" value="#{mantenimientoBean.mantenimiento.descripcion}"/>
+                 
+                 <p:outputLabel for="resultado" value="Resultado:*"></p:outputLabel>
+                 <p:inputTextarea rows="3" cols="70"  id="resultado" queryDelay="750" minQueryLength="4" value="#{mantenimientoBean.mantenimiento.resultado}"/>
+                                  
+            </p:panelGrid>
+                <p:separator/>
+                
+                <p:panelGrid columns="4" style="width: 645px">  
+                    <p:outputLabel for="equipoC" value="Codigo Equipo:"></p:outputLabel>
+                    <p:selectOneMenu id="equipoC" value="#{mantenimientoBean.mantenimiento.equipo}" required="true">
+                        <f:selectItems value="#{equipoManaged.equipos}" var="eqp" itemLabel="#{eqp.id}" itemValue="#{eqp.id}"/>
+                    </p:selectOneMenu>
+                
+                    <p:outputLabel for="responsable" value="Responsable:"></p:outputLabel>
+                    <p:selectOneMenu id="responsable" value="#{mantenimientoBean.mantenimiento.res}" required="true">
+                        <f:selectItems value="#{responsableBean.lista}" var="res" itemLabel="#{res.nombre} #{res.apellido}" itemValue="#{res.identificacion}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <br/>
+                <p:commandButton icon="ui-icon-disk" value="Guardar" title="guardar mantenimiento" actionListener="#{mantenimientoBean.guardarMantenimiento()}" update="tablaM"></p:commandButton>
+                <p:separator/>
+                <br/>
+                <div align="center">
+                    <h2><p:outputLabel value="LISTADO DE MANTENIMIENTOS"/></h2>
+                </div>
+                <p:dataTable id="tablaM" var="item" value="#{mantenimientoBean.lista}" paginator="true" rows="3" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                   rowsPerPageTemplate="1,2,3"  currentPageReportTemplate="Página: ({currentPage} de {totalPages})" emptyMessage="No se han encontrado mantenimientos registrados">
+                    <p:column headerText="CODIGO" filterBy="#{item.codigo}">
+                        <h:outputText value="#{item.codigo}"></h:outputText>
+                </p:column>
+                    <p:column headerText="FECHA INGRESO" filterBy="#{item.fechaIngreso}">
+                        <h:outputText value="#{item.fechaIngresoBD}"></h:outputText>
+                </p:column>
+                    <p:column headerText="TIPO" filterBy="#{item.tipo}">
+                        <h:outputText value="#{item.tipo}"></h:outputText>
+                </p:column>
+                    <p:column headerText="DESCRIPCION" filterBy="#{item.descripcion}">
+                        <h:outputText value="#{item.descripcion}"></h:outputText>
+                </p:column>
+                    <p:column headerText="RESULTADO" filterBy="#{item.resultado}">
+                        <h:outputText value="#{item.resultado}"></h:outputText>
+                </p:column>
+                <p:column headerText="EQUIPO" filterBy="#{item.equipo}">
+                    <h:outputText value="#{item.equipo}"></h:outputText>
+                </p:column>
+                <p:column headerText="RESPONSABLE" filterBy="#{item.responsable}">
+                    <h:outputText value="#{item.responsable}"></h:outputText>
+                </p:column>
+            </p:dataTable>
+            </p:panel>    
+        
+        </h:form>
+    </h:body>
+</html>
+
